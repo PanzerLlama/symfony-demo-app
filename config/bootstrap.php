@@ -2,6 +2,17 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
+/**
+\App\Doctrine\ContainerIdType::setClass(\App\Entity\ContainerId::class);
+\App\Doctrine\ContainerIdType::setDataType(\Doctrine\DBAL\Types\Type::INTEGER);
+\Doctrine\DBAL\Types\Type::addType(\App\Doctrine\ContainerIdType::NAME, \App\Doctrine\ContainerIdType::class);
+
+/**
+MyDomainIdType::setClass(MyDomainId::class);
+MyDomainIdType::setDataType(Type::GUID);
+
+Type::addType(MyDomainIdType::NAME, MyDomainIdType::class);*/
+
 require dirname(__DIR__).'/vendor/autoload.php';
 
 if (!array_key_exists('APP_ENV', $_SERVER)) {
