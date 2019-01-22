@@ -6,7 +6,7 @@
  * Time: 5:56 PM
  */
 
-namespace App\Entity;
+namespace App\Entity\Inventory;
 
 use MsgPhp\Domain\DomainId;
 

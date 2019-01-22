@@ -8,10 +8,9 @@
 
 namespace App\Doctrine;
 
-
 use MsgPhp\Domain\Infra\Doctrine\DomainIdType;
 
-class ContainerIdType extends DomainIdType
+class ItemIdType extends DomainIdType
 {
-    public const NAME = 'container_id';
+    public const NAME = 'item_id';
 }

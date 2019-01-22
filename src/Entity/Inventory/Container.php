@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Inventory;
 
-use App\Entity\ContainerIdInterface;
-use App\Entity\Inventory\Fields\ItemField;
+use App\Entity\Inventory\Fields\ItemsField;
+use MsgPhp\Domain\DomainIdInterface;
 use MsgPhp\Domain\Entity\Features\CanBeEnabled;
 use MsgPhp\Domain\Entity\Fields\CreatedAtField;
 use MsgPhp\Domain\Event\DomainEventHandlerInterface;
@@ -25,7 +25,7 @@ class Container implements DomainEventHandlerInterface
 {
     use CreatedAtField;
     use CanBeEnabled;
-    //use ItemField;
+    use ItemsField;
     use DomainEventHandlerTrait;
 
     /**
@@ -47,7 +47,7 @@ class Container implements DomainEventHandlerInterface
     public function __construct(ContainerIdInterface $id, $name)
     {
         $this->id = $id;
-        $this->name= $name;
+        $this->name = $name;
         $this->createdAt = new \DateTimeImmutable();
     }
 

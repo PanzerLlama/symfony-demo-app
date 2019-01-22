@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace App\Entity\Inventory;
 
 use App\Entity\Inventory\Fields\ContainerField;
-use App\Entity\ItemIdInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,29 +22,21 @@ class Item
 
     /**
      * @ORM\Id()
-     * @ORM\Column(type="msgphp_attribute_value_id", length=191)
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="item_id", length=191)
      */
     private $id;
 
-    public function __construct(ItemIdInterface $id, Container $container)
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $description;
+
+    public function __construct(string $description)
     {
-        $this->id           = $id;
-        $this->container    = $container;
+        $this->id           = new ItemId();
+        $this->description  = $description;
     }
 }
-
-/*
- *  *      @AssociationOverride(name="address",
- *          joinColumns=@JoinColumn(
- *              name="adminaddress_id", referencedColumnName="id"
- *          )
- *      )
- */
-/*
-* @ORM\AssociationOverride(name="device",
- *      joinColumns=@ORM\JoinColumn(
- *           name="device_id", referencedColumnName="id"
-    *      )
- * )
- *
- */

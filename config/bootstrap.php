@@ -5,11 +5,6 @@ declare(strict_types=1);
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
-\App\Doctrine\ContainerIdType::setClass(\App\Entity\ContainerId::class);
-\App\Doctrine\ContainerIdType::setDataType(\Doctrine\DBAL\Types\Type::INTEGER);
-\Doctrine\DBAL\Types\Type::addType(\App\Doctrine\ContainerIdType::NAME, \App\Doctrine\ContainerIdType::class);
-
-/**
 MyDomainIdType::setClass(MyDomainId::class);
 MyDomainIdType::setDataType(Type::GUID);
 

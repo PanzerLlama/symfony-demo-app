@@ -17,4 +17,11 @@ class ContainerRepository
         doExists as public exists;
         doSave as public save;
     }
+
+    public function findAll()
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        return $qb->getQuery()->getResult();
+    }
 }

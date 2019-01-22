@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Inventory;
 
 use MsgPhp\Domain\DomainIdInterface;
 
-interface ItemIdInterface extends DomainIdInterface
+interface ContainerIdInterface extends DomainIdInterface
 {
 }
