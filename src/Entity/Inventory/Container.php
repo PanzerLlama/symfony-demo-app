@@ -25,18 +25,29 @@ class Container implements DomainEventHandlerInterface
 {
     use CreatedAtField;
     use CanBeEnabled;
-    use ItemField;
+    //use ItemField;
     use DomainEventHandlerTrait;
 
     /**
+     * @var ContainerIdInterface|null
+     *
      * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="container_id", length=191)
      */
     private $id;
 
-    public function __construct(ContainerIdInterface $id)
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    public function __construct(ContainerIdInterface $id, $name)
     {
         $this->id = $id;
+        $this->name= $name;
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -46,5 +57,23 @@ class Container implements DomainEventHandlerInterface
     public function getId(): ContainerIdInterface
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Container
+     */
+    public function setName(string $name): Container
+    {
+        $this->name = $name;
+        return $this;
     }
 }

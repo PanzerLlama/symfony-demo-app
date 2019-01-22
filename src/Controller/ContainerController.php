@@ -14,8 +14,9 @@ use App\Entity\ContainerId;
 use App\Entity\Inventory\Container;
 use App\Http\Responder;
 use App\Http\RespondTemplate;
+use App\Repository\ContainerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use MsgPhp\Domain\Factory\EntityAwareFactoryInterface;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,25 +27,20 @@ class ContainerController
      * @Route("/container", name="container")
      * @return Response
      */
-    public function container(Responder $responder, EntityAwareFactoryInterface $factory): Response
+    public function container(Responder $responder, EntityAwareFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
 
         \App\Doctrine\ContainerIdType::setClass(\App\Entity\ContainerId::class);
         \App\Doctrine\ContainerIdType::setDataType(\Doctrine\DBAL\Types\Type::INTEGER);
         \Doctrine\DBAL\Types\Type::addType(\App\Doctrine\ContainerIdType::NAME, \App\Doctrine\ContainerIdType::class);
-        //$id = new ContainerId('1');
 
+        $container = new Container( new ContainerId(), 'Heavy Treasure Chest');
 
-        echo 'id:'.$factory->nextIdentifier(\MsgPhp\Eav\Entity\AttributeValue::class).'<br>';
-        echo 'id:'.$factory->nextIdentifier(Container::class).'<br>';
-        exit;
+        $repository = new ContainerRepository(Container::class, $entityManager);
 
-        $container = $factory->create(Container::class, ['id' => new ContainerId(1)]);
-
-        //echo get_class($container);
+        $repository->save($container);
 
         dd($container);
-
 
         return $responder->respond(new RespondTemplate('container.html.twig'));
     }
