@@ -11,12 +11,13 @@ declare(strict_types=1);
 namespace App\Entity\Inventory;
 
 use App\Entity\Inventory\Fields\ItemsField;
-use MsgPhp\Domain\DomainIdInterface;
+use App\Entity\User\User;
 use MsgPhp\Domain\Entity\Features\CanBeEnabled;
 use MsgPhp\Domain\Entity\Fields\CreatedAtField;
 use MsgPhp\Domain\Event\DomainEventHandlerInterface;
 use MsgPhp\Domain\Event\DomainEventHandlerTrait;
 use Doctrine\ORM\Mapping as ORM;
+use MsgPhp\User\Entity\Fields\UserField;
 
 /**
  * @ORM\Entity()
@@ -26,6 +27,9 @@ class Container implements DomainEventHandlerInterface
     use CreatedAtField;
     use CanBeEnabled;
     use ItemsField;
+    use UserField;
+
+    # here for doing some further features...
     use DomainEventHandlerTrait;
 
     /**
@@ -44,9 +48,10 @@ class Container implements DomainEventHandlerInterface
      */
     private $name;
 
-    public function __construct(ContainerIdInterface $id, $name)
+    public function __construct(ContainerIdInterface $id, User $user, string $name)
     {
-        $this->id = $id;
+        $this->id   = $id;
+        $this->user = $user;
         $this->name = $name;
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -76,4 +81,10 @@ class Container implements DomainEventHandlerInterface
         $this->name = $name;
         return $this;
     }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
 }

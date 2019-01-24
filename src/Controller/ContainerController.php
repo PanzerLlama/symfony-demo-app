@@ -13,12 +13,13 @@ namespace App\Controller;
 use App\Entity\Inventory\ContainerId;
 use App\Entity\Inventory\Container;
 use App\Entity\Inventory\Item;
-use App\Entity\Inventory\ItemId;
+use App\Entity\User\User;
 use App\Http\Responder;
 use App\Http\RespondTemplate;
 use App\Repository\ContainerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use MsgPhp\Domain\Factory\EntityAwareFactoryInterface;
+use MsgPhp\User\Infra\Doctrine\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,20 +33,28 @@ class ContainerController
     public function container(Responder $responder, EntityAwareFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
 
-        \App\Doctrine\ContainerIdType::setClass(\App\Entity\Inventory\ContainerId::class);
-        \App\Doctrine\ContainerIdType::setDataType(\Doctrine\DBAL\Types\Type::INTEGER);
-        \Doctrine\DBAL\Types\Type::addType(\App\Doctrine\ContainerIdType::NAME, \App\Doctrine\ContainerIdType::class);
-        \App\Doctrine\ItemIdType::setClass(\App\Entity\Inventory\ItemId::class);
-        \App\Doctrine\ItemIdType::setDataType(\Doctrine\DBAL\Types\Type::INTEGER);
-        \Doctrine\DBAL\Types\Type::addType(\App\Doctrine\ItemIdType::NAME, \App\Doctrine\ItemIdType::class);
 
+        $repository = $entityManager->getRepository(User::class);
+
+
+        foreach ($repository->findAll() as $e) {
+            //$entityManager->remove($container);
+            echo $e->getContainers()->count();
+        }
+
+        exit;
 
         $repository = new ContainerRepository(Container::class, $entityManager);
 
+
         foreach ($repository->findAll() as $container) {
-echo $container->getId();
+            //$entityManager->remove($container);
+           var_dump($container->getUser());
         }
-exit;
+
+        exit;
+        $entityManager->flush();
+
         $container = new Container(new ContainerId(), 'Heavy Treasure Chest');
 
         $container->addItem(new Item('373 golden coins'));

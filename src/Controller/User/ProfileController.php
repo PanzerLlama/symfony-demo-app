@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
+use App\Command\UserAddContainerCommand;
 use App\Entity\User\User;
 use App\Entity\User\UserEmail;
 use App\EventSubscriber\SendEmailConfirmationUrl;
 use App\Form\User\AddEmailType;
 use App\Form\User\ChangePasswordType;
+use App\Form\User\InventoryType;
 use App\Http\Responder;
 use App\Http\RespondNotFound;
 use App\Http\RespondRouteRedirect;
@@ -134,10 +136,24 @@ final class ProfileController
             ]));
         }
 
+        $inventoryForm = $formFactory->create(InventoryType::class);
+        $inventoryForm->handleRequest($request);
+
+        if ($inventoryForm->isSubmitted() && $inventoryForm->isValid()) {
+
+            $bus->dispatch(new UserAddContainerCommand($user, ['name' => $inventoryForm->getData()['name']]));
+
+            return $responder->respond((new RespondRouteRedirect('profile'))->withFlashes([
+                'success' => 'New container has been added.',
+            ]));
+        }
+
         // render view
         return $responder->respond(new RespondTemplate('user/profile.html.twig', [
             'email_form' => $emailForm->createView(),
             'password_form' => $passwordForm->createView(),
+            'inventory_form' => $inventoryForm->createView(),
+            'user' => $user
         ]));
     }
 }

@@ -86,4 +86,23 @@
             </div>
         {{ form_end(password_form) }}
     </fieldset>
+
+    <fieldset>
+        <legend>My inventory</legend>
+        <ul>
+        {% for c in user.containers %}
+            <li>{{ c.name }}</li>
+        {% endfor %}
+        </ul>
+        <br><br>
+        {{ form_start(inventory_form) }}
+        {{ form_errors(inventory_form) }}
+        {{ form_row(inventory_form.name, {label: 'Container name', translation_domain: false}) }}
+        <div>
+            <input type="submit" value="Add to inventory" />
+        </div>
+        {{ form_end(inventory_form) }}
+    </fieldset>
+
+
 {% endblock %}
