@@ -48,6 +48,12 @@ class Container implements DomainEventHandlerInterface
      */
     private $name;
 
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="containers")
+     */
+    private $user;
+
     public function __construct(ContainerIdInterface $id, User $user, string $name)
     {
         $this->id   = $id;
